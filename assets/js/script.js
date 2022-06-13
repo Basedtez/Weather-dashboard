@@ -3,10 +3,10 @@ var today = moment().format('L');
 var searchHistoryList = [];
 // function for the current weather condition
 function currentCondition(city) {
-    var queryURL = 'https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${apiKey}';
+    var queryURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${apiKey}`;
 
     $.ajax({
-        url: queryURL
+        url: queryURL,
         method: "GET"
     }).then(function(cityWeatherResponse) {
         console.log(cityWeatherResponse);
@@ -15,7 +15,7 @@ function currentCondition(city) {
         $("#cityDetail").empty();
 
         var iconCode = cityWeatherResponse.weather[0].icon;
-        var iconUrl = `https://openweathermap.org/img/w/${iconCode}.png`;
+        var iconURL = `https://openweathermap.org/img/w/${iconCode}.png`;
     
         //citys searched date and weather icons that represent the conditions
         var currentCity = $(`
@@ -122,6 +122,12 @@ $("#searchBtn").on("click", function(event) {
     localStorage.setItem("city", JSON.stringify(searchHistoryList));
     console.log(searchHistoryList);
 });
+// search history 
+$(document).on("click",".list-group-item",function() {
+    var listCity = $(this).text();
+    currentCondition(listCity);
+});
+
 
 
    
